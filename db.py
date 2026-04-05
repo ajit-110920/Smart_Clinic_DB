@@ -2,9 +2,9 @@ import mysql.connector
 
 def get_conn():
     return mysql.connector.connect(
-        host=os.environ.get('MYSQL_HOST', 'localhost'),
-        user=os.environ.get('MYSQL_USER', 'root'),
-        password=os.environ.get('MYSQL_PASSWORD', 'root123'),
+        host=os.environ.get('MYSQLHOST', 'localhost'),
+        user=os.environ.get('MYSQLUSER', 'root'),
+        password=os.environ.get('MYSQLPASSWORD', 'root123'),
         database=os.environ.get('MYSQL_DATABASE', 'clinic_db')
     )
 # ─── Auth ─────────────────────────────────────────────────────────────────────

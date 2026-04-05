@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}Appointments – ClinicStock{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <h1>📅 <span>Appointments</span></h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="two-col" style="align-items:start">
+
+  <!-- Book form -->
+  <div class="card">
+    <div class="card-header"><h3>Book Appointment</h3></div>
+    <div style="padding:22px">
+      <form method="POST" action="{{ url_for('book_appointment') }}">
+        <div class="form-group" style="margin-bottom:16px">
+          <label>Patient</label>
+          <select name="patient_id" required>
+            <option value="" disabled selected>Select patient</option>
+            {% for p in patients %}
+            <option value="{{ p.patient_id }}">{{ p.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:16px">
+          <label>Doctor</label>
+          <select name="doctor_id" required>
+            <option value="" disabled selected>Select doctor</option>
+            {% for d in doctors %}
+            <option value="{{ d.doctor_id }}">Dr. {{ d.doctor_name }} – {{ d.specialization }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:16px">
+          <label>Date</label>
+          <input type="date" name="date" required>
+        </div>
+        <div class="form-group" style="margin-bottom:24px">
+          <label>Time</label>
+          <input type="time" name="time" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Book Now</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Appointments list -->
+  <div class="card">
+    <div class="card-header">
+      <h3>All Appointments</h3>
+      <span style="font-size:13px;color:var(--muted)">{{ appointments|length }} total</span>
+    </div>
+    <div class="table-wrap">
+      {% if appointments %}
+      <table>
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in appointments %}
+          <tr>
+            <td>{{ a.patient_name }}</td>
+            <td><span class="badge badge-teal">{{ a.doctor_name }}</span></td>
+            <td style="color:var(--muted)">{{ a.date }}</td>
+            <td style="color:var(--muted)">{{ a.time }}</td>
+            <td>
+              <a href="{{ url_for('delete_appointment', appt_id=a.appointment_id) }}"
+                 class="btn btn-danger btn-sm"
+                 onclick="return confirm('Cancel this appointment?')">✕</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">📅</div>
+        <p>No appointments booked yet.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}

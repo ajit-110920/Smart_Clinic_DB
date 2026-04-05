@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard – ClinicStock{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <h1>Good morning, <span>{{ session.get('user','Admin') }}</span> 👋</h1>
+  <span style="font-size:13px;color:var(--muted);">Overview</span>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon">👨‍⚕️</div>
+    <div class="stat-value">{{ stats.doctors }}</div>
+    <div class="stat-label">Doctors</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">🧑‍🤝‍🧑</div>
+    <div class="stat-value">{{ stats.patients }}</div>
+    <div class="stat-label">Patients</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">📅</div>
+    <div class="stat-value">{{ stats.appointments }}</div>
+    <div class="stat-label">Appointments</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">💊</div>
+    <div class="stat-value">{{ stats.medicines }}</div>
+    <div class="stat-label">Medicines</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">📦</div>
+    <div class="stat-value">{{ stats.stock }}</div>
+    <div class="stat-label">Stock Units</div>
+  </div>
+</div>
+
+<div class="two-col">
+  <!-- Recent Appointments -->
+  <div class="card">
+    <div class="card-header">
+      <h3>Recent Appointments</h3>
+      <a href="{{ url_for('appointments') }}" class="btn btn-outline btn-sm">View All</a>
+    </div>
+    <div class="table-wrap">
+      {% if stats.recent_appointments %}
+      <table>
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in stats.recent_appointments %}
+          <tr>
+            <td>{{ a.patient }}</td>
+            <td><span class="badge badge-teal">{{ a.doctor }}</span></td>
+            <td style="color:var(--muted)">{{ a.date }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">📅</div>
+        <p>No appointments yet</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="card">
+    <div class="card-header"><h3>Quick Actions</h3></div>
+    <div style="padding:20px;display:flex;flex-direction:column;gap:12px;">
+      <a href="{{ url_for('add_doctor') }}" class="btn btn-outline" style="justify-content:flex-start;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add New Doctor
+      </a>
+      <a href="{{ url_for('add_patient') }}" class="btn btn-outline" style="justify-content:flex-start;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Register Patient
+      </a>
+      <a href="{{ url_for('appointments') }}" class="btn btn-outline" style="justify-content:flex-start;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Book Appointment
+      </a>
+      <a href="{{ url_for('add_medicine') }}" class="btn btn-outline" style="justify-content:flex-start;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Medicine
+      </a>
+      <a href="{{ url_for('medicines') }}" class="btn btn-primary" style="justify-content:flex-start;margin-top:8px;">
+        📦 View Stock
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clinic Stock DB Login</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="login-page">
+  <div class="login-bg"></div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="cross-icon">🏥</div>
+      <h1>ClinicStock</h1>
+      <p>Clinic Management System</p>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          <div class="flash-box">⚠ {{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <div class="form-group" style="margin-bottom:16px">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Enter username" required autofocus>
+      </div>
+      <div class="form-group" style="margin-bottom:24px">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter password" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;">
+        Sign In →
+      </button>
+    </form>
+    <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:20px;">
+      Default: admin / admin123
+    </p>
+  </div>
+</div>
+</body>
+</html>

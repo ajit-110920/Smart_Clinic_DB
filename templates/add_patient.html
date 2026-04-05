@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Register Patient – ClinicStock{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <h1>+ Register <span>Patient</span></h1>
+  <a href="{{ url_for('patients') }}" class="btn btn-outline">← Back</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="form-card">
+  <form method="POST">
+    <div class="form-grid">
+      <div class="form-group full">
+        <label>Full Name</label>
+        <input type="text" name="name" placeholder="Patient's full name" required>
+      </div>
+      <div class="form-group">
+        <label>Age</label>
+        <input type="number" name="age" placeholder="Age" min="0" max="120" required>
+      </div>
+      <div class="form-group">
+        <label>Gender</label>
+        <select name="gender" required>
+          <option value="" disabled selected>Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Contact Number</label>
+        <input type="tel" name="contact_no" placeholder="e.g. 9876543210" required>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Register Patient</button>
+      <a href="{{ url_for('patients') }}" class="btn btn-outline">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Patients – ClinicStock{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <h1>🧑‍🤝‍🧑 <span>Patients</span></h1>
+  <a href="{{ url_for('add_patient') }}" class="btn btn-primary">+ Register Patient</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3>All Patients</h3>
+    <span style="font-size:13px;color:var(--muted)">{{ patients|length }} records</span>
+  </div>
+  <div class="table-wrap">
+    {% if patients %}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Contact</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in patients %}
+        <tr>
+          <td style="color:var(--muted)">{{ p.patient_id }}</td>
+          <td><strong>{{ p.name }}</strong></td>
+          <td>{{ p.age }}</td>
+          <td>
+            <span class="badge {% if p.gender == 'Male' %}badge-teal{% else %}badge-warn{% endif %}">
+              {{ p.gender }}
+            </span>
+          </td>
+          <td style="color:var(--muted)">{{ p.contact_no }}</td>
+          <td>
+            <a href="{{ url_for('delete_patient', patient_id=p.patient_id) }}"
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Remove patient {{ p.name }}?')">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">🧑‍🤝‍🧑</div>
+      <p>No patients registered yet. <a href="{{ url_for('add_patient') }}">Register one now.</a></p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

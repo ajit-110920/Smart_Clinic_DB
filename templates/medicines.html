@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Medicines & Stock – ClinicStock{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <h1>💊 <span>Medicines & Stock</span></h1>
+  <a href="{{ url_for('add_medicine') }}" class="btn btn-primary">+ Add Medicine</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3>Stock Inventory</h3>
+    <span style="font-size:13px;color:var(--muted)">{{ medicines|length }} items</span>
+  </div>
+  <div class="table-wrap">
+    {% if medicines %}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Medicine Name</th>
+          <th>Price (₹)</th>
+          <th>Expiry Date</th>
+          <th>Qty Available</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in medicines %}
+        <tr>
+          <td style="color:var(--muted)">{{ m.medicine_id }}</td>
+          <td><strong>{{ m.medicine_name }}</strong></td>
+          <td>₹{{ "%.2f"|format(m.price) }}</td>
+          <td style="color:var(--muted)">{{ m.expiry_date }}</td>
+          <td>{{ m.quantity_available }}</td>
+          <td>
+            {% if m.quantity_available == 0 %}
+              <span class="badge badge-danger">Out of Stock</span>
+            {% elif m.quantity_available < 10 %}
+              <span class="badge badge-warn">Low Stock</span>
+            {% else %}
+              <span class="badge badge-teal">In Stock</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('delete_medicine', med_id=m.medicine_id) }}"
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Remove {{ m.medicine_name }}?')">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">💊</div>
+      <p>No medicines added yet. <a href="{{ url_for('add_medicine') }}">Add one now.</a></p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

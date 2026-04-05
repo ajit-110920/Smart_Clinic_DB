@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Add Medicine – ClinicStock{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <h1>+ Add <span>Medicine</span></h1>
+  <a href="{{ url_for('medicines') }}" class="btn btn-outline">← Back</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="form-card">
+  <form method="POST">
+    <div class="form-grid">
+      <div class="form-group full">
+        <label>Medicine Name</label>
+        <input type="text" name="medicine_name" placeholder="e.g. Paracetamol 500mg" required>
+      </div>
+      <div class="form-group">
+        <label>Price (₹)</label>
+        <input type="number" name="price" placeholder="0.00" step="0.01" min="0" required>
+      </div>
+      <div class="form-group">
+        <label>Quantity in Stock</label>
+        <input type="number" name="quantity" placeholder="Units" min="0" required>
+      </div>
+      <div class="form-group full">
+        <label>Expiry Date</label>
+        <input type="date" name="expiry_date" required>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Add to Stock</button>
+      <a href="{{ url_for('medicines') }}" class="btn btn-outline">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Doctors – ClinicStock{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <h1>👨‍⚕️ <span>Doctors</span></h1>
+  <a href="{{ url_for('add_doctor') }}" class="btn btn-primary">+ Add Doctor</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3>All Doctors</h3>
+    <span style="font-size:13px;color:var(--muted)">{{ doctors|length }} records</span>
+  </div>
+  <div class="table-wrap">
+    {% if doctors %}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Specialization</th>
+          <th>Available Time</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in doctors %}
+        <tr>
+          <td style="color:var(--muted)">{{ d.doctor_id }}</td>
+          <td><strong>Dr. {{ d.doctor_name }}</strong></td>
+          <td><span class="badge badge-teal">{{ d.specialization }}</span></td>
+          <td style="color:var(--muted)">{{ d.available_time }}</td>
+          <td>
+            <a href="{{ url_for('delete_doctor', doctor_id=d.doctor_id) }}"
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Remove Dr. {{ d.doctor_name }}?')">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">👨‍⚕️</div>
+      <p>No doctors added yet. <a href="{{ url_for('add_doctor') }}">Add one now.</a></p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
